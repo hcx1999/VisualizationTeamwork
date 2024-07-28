@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bar and Line Chart with D3.js</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+<script>
+// 数据
+const data = [
+    {date: "2021-01", value: 30, barValue: 10},
+    {date: "2021-02", value: 80, barValue: 20},
+    {date: "2021-03", value: 60, barValue: 30},
+    {date: "2021-04", value: 100, barValue: 40},
+    {date: "2021-05", value: 50, barValue: 50}
+];
+
+// 设置SVG画布大小
+const width = 600;
+const height = 400;
+const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+
+// 创建SVG元素
+const svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// 定义比例尺
+const x = d3.scaleBand()
+    .domain(data.map(d => d.date))
+    .range([margin.left, width - margin.right])
+    .padding(0.1);
+
+const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.barValue)]).nice()
+    .range([height - margin.bottom, margin.top]);
+
+const yLine = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)]).nice()
+    .range([height - margin.bottom, margin.top]);
+
+// 绘制条形图
+svg.selectAll(".bar")
+  .data(data)
+  .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.date))
+    .attr("y", d => y(d.barValue))
+    .attr("width", x.bandwidth())
+    .attr("height", d => height - margin.bottom - y(d.barValue))
+    .attr("fill", "steelblue");
+
+// 绘制折线图
+console.log(x);
+
+const line = d3.line()
+    .x(d => x(d.date) + x.bandwidth() / 2)
+    .y(d => yLine(d.value));
+
+svg.append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "red")
+    .attr("stroke-width", 1.5)
+    .attr("d", line);
+
+// 添加X轴
+svg.append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x));
+
+// 添加Y轴
+svg.append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y));
+
+// 添加Y轴（折线图）
+svg.append("g")
+    .attr("transform", `translate(${width - margin.right},0)`)
+    .call(d3.axisRight(yLine));
+</script>
+</body>
+</html>
