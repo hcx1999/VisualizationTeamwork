@@ -1,9 +1,9 @@
 
 
 
-const margin = {top: 100, right: 10, bottom: 200, left: 50};
+const margin = {top: 100, right: 0, bottom: 200, left: 50};
 const height = 600;
-const width = 600;
+const width = 700;
 var offsetX = 0;
 var interval = 0.6;
 

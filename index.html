@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-
         <meta charset="utf-8">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,26 +8,16 @@
 
         <!-- Load CSS libraries -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <!-- <link rel="stylesheet" href="css/style.css"> -->
-
+        <link rel="stylesheet" href="css/style.css">
     </head>
-
     <body>
-
-        <div class="container center">
-            <h1>人口统计图</h1>
-            <table class='table'>
-                <tr>
-                    <td rowspan="2">
-                        <div id="chart-area"></div>
-                    </td>
-                    <td>
-                        <div id='img'></div>
-                    </td>
-                </tr><tr>
-                    <td>
-                        <div id='test'><img src='img/2.jpg' width="200" height="300"></div>
-                    </td></tr></table>
+        <!-- <div><h1>人口统计图</h1></div> -->
+        <div class="container">
+            <div class="left" id="chart-area"></div>
+            <div class="right">
+                <div class="detail" id='svg-detail'></div>
+                <div class="detail" id='form'></div>
+            </div>
         </div>
 
         <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -41,6 +29,8 @@
         <script src="json/femaleMortality.js"></script>
         <script src="json/BirthRate.js"></script>
         <script src="json/DeathRate.js"></script>
+        <script src="json/GrowthRate.js"></script>
+        <script src="json/Population.js"></script>
         <script src="json/Male.js"></script>
         <script src="json/Female.js"></script>
         <script src="json/City.js"></script>
@@ -52,5 +42,4 @@
         <!-- <script src="js/temp.js"></script> -->
 
     </body>
-
 </html>

@@ -2,52 +2,42 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Pie Chart</title>
+    <title>D3 Table</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
-    <svg width="500" height="500"></svg>
+    <div id="table"></div>
 
     <script>
         // 准备数据
         var data = [
-            {name: "A", value: 30},
-            {name: "B", value: 20},
-            {name: "C", value: 50}
+            { name: "Alice", age: 30, location: "New York" },
+            { name: "Bob", age: 25, location: "Los Angeles" },
+            { name: "Charlie", age: 35, location: "Chicago" }
         ];
 
-        // 创建SVG画布
-        var svg = d3.select("svg");
+        // 创建表格
+        var table = d3.select("#table").append("table");
 
-        // 创建一个分组元素，用于包含所有的扇形
-        var g = svg.append("g")
-            .attr("transform", "translate(250, 250)");
+        // 添加表头
+        table.append("thead")
+            .append("tr")
+            .selectAll("th")
+            .data(Object.keys(data[0]))
+            .enter().append("th")
+            .text(function(d) { return d; });
 
-        // 使用d3.pie()生成器
-        var pie = d3.pie()
-            .value(function(d) { return d.value; });
+        // 添加表格行
+        var rows = table.append("tbody")
+            .selectAll("tr")
+            .data(data)
+            .enter().append("tr");
 
-        // 使用d3.arc()生成器
-        var arc = d3.arc()
-            .innerRadius(0)
-            .outerRadius(200);
-
-        // 绑定数据和生成SVG路径元素
-        var arcs = g.selectAll("arc")
-            .data(pie(data))
-            .enter()
-            .append("g")
-            .attr("class", "arc");
-
-        // 添加路径元素
-        arcs.append("path")
-            .attr("d", arc)
-            .attr("fill", function(d, i) { return d3.schemeCategory10[i]; });
-
-        // 添加标签（可选）
-        arcs.append("text")
-            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-            .text(function(d) { return d.data.name; });
+        // 添加单元格
+        rows.selectAll("td")
+            .data(function(d) { return Object.values(d); })
+            .enter().append("td")
+            .text(function(d) { return d; });
     </script>
 </body>
 </html>

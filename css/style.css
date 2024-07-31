@@ -1,36 +1,21 @@
-.table1 table{
-    border-collapse: collapse;
-    width: 50%;
-    margin: 20px auto;
-    }
-    .table1 th, .table1 td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-    }
-    .table1 th {
-    background-color: #f2f2f2;
+body, html {
+    height: 100%;
+    margin: 0;
 }
-
-.center {
-    display: block;
-    margin: 0 auto;
-    /* 添加你想要的样式 */
+.container {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
 }
-
-.axis {
-    font: 10px sans-serif;
+.left {
+    width: 100%;
 }
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
+.right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space;
 }
-.x-axis path {
-    display: inline;
-}
-.axis-title {
-    fill: #888;
-    font-size: 11px;
+.detail {
+    margin-bottom: 10px;
 }
