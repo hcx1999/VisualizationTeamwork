@@ -1,9 +1,9 @@
 
 
 
-const margin = {top: 100, right: 50, bottom: 200, left: 50};
+const margin = {top: 100, right: 10, bottom: 200, left: 50};
 const height = 600;
-const width = 800;
+const width = 600;
 var offsetX = 0;
 var interval = 0.6;
 
@@ -19,7 +19,7 @@ function renderBarChart(male, female) {
 	// 比例尺
 	x = d3.scaleBand()
 		.domain(male.map(d => d.Year))
-		.range([margin.left, width - margin.right])
+		.range([margin.left, (width - margin.right)*63/64])
 		.padding(interval);
 	
 	// 记录年份与比例尺之间的反映射
@@ -68,19 +68,7 @@ function renderBarChart(male, female) {
 	});
 	// console.log(barPositions);
 
-	//x轴
-	var xAxis = d3.axisBottom(x);
-		// .tickSize(0); // 取消刻度
-
-	svg.append("g")
-		.attr("transform", `translate(0,${height - margin.bottom})`)
-		.call(xAxis)
-		.selectAll("text")
-		.attr("transform", `translate(0,${-200})`)
-		.attr("transform", "rotate(-45)")
-		.attr("text-anchor", "end");
-
-	//y轴
+	// y轴
 	var yAxis = d3.axisLeft(y);
 
 	svg.append("g")
@@ -99,7 +87,7 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 	// 比例尺
 	var x = d3.scaleBand()
 		.domain(fertility.map(d => d.Year))
-		.range([margin.left, (width - margin.right)*62/63])
+		.range([margin.left, (width - margin.right)*62/64])
 		.padding(interval);
 	var yLine = d3.scaleLinear()
 		.domain([0, d3.max(fertility, d => Number(d.Value))]).nice()
@@ -140,6 +128,7 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 		.style("text-anchor", "end")
 		.text("新生儿(平均每个妇女)");
 
+/*
 	// 下面的两条折线
 	yLine = d3.scaleLinear()
 		.domain([0, d3.max(maleMortality, d => Number(d.Value))]).nice()
@@ -202,10 +191,114 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 		.attr("transform", `translate(${margin.left + 30},${height - margin.bottom / 2 + 30})`)
 		.style("text-anchor", "end")
 		.text("死亡率(每千人)");
+*/
 
 }
 
-function tag() {
+function renderRateChart(BirthRate, DeathRate) {
+
+	var x = d3.scaleBand()
+		.domain(BirthRate.map(d => d.Year))
+		.range([margin.left, width - margin.right])
+		.padding(interval);
+
+	var Birth = d3.scaleLinear()
+		.domain([0, d3.max(BirthRate, d => Number(d.Value))]).nice()
+		.range([height - margin.bottom, height - margin.bottom / 2]);
+
+	var Line_birth = d3.line()
+		.x(d => x(d.Year) + x.bandwidth() / 2)
+		.y(d => Birth(d.Value));
+	
+	svg.append("path")
+		.datum(BirthRate)
+		.attr("fill", "none")
+		.attr("stroke", "red")
+		.attr("stroke-width", 1.5)
+		.attr("d", Line_birth);
+
+	svg.selectAll(".dot2")
+		.data(BirthRate)
+		.enter().append("circle")
+		.attr("class", "dot2")
+		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
+		.attr("cy", d => Birth(d.Value))
+		.attr("r", 1.5)
+		.attr("fill", "red")
+		.attr("stroke", "red")
+		.attr("stroke-width", 1);
+
+	// console.log(DeathRate);
+	var Death = d3.scaleLinear()
+		.domain([0, d3.max(DeathRate, d => Number(d.Value))]).nice()
+		.range([height - margin.bottom, height - margin.bottom / 2]);
+
+	var Line_death = d3.line()
+		.x(d => x(d.Year) + x.bandwidth() / 2)
+		.y(d => Death(d.Value));
+	
+	svg.append("path")
+		.datum(DeathRate)
+		.attr("fill", "none")
+		.attr("stroke", "black")
+		.attr("stroke-width", 1.5)
+		.attr("d", Line_death);
+
+	svg.selectAll(".dot3")
+		.data(DeathRate)
+		.enter().append("circle")
+		.attr("class", "dot2")
+		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
+		.attr("cy", d => Death(d.Value))
+		.attr("r", 1.5)
+		.attr("fill", "black")
+		.attr("stroke", "black")
+		.attr("stroke-width", 1);
+
+	// 记录birth.year和death之间的映射
+	birth_darth_map = DeathRate.reduce((map, d) => {
+		map[d.Year] = d.Value;
+		return map;
+	  }, {});
+
+/*
+	// renderGrowthRateArea
+	var area = d3.area()
+		.x(function(d) { return x(d.Year); })
+		.y0(function(d) { return Death(birth_darth_map[d.Year]); })
+		.y1(function(d) { return Birth(d.Value); });
+
+	svg.append("path")
+		.datum(BirthRate)
+		.attr("fill", "green")
+		.attr("d", area);
+*/
+
+	// x轴
+	var xAxis = d3.axisBottom(x);
+		// .tickSize(0); // 取消刻度
+
+	svg.append("g")
+		.attr("transform", `translate(0,${height - margin.bottom})`)
+		.call(xAxis)
+		.selectAll("text")
+		.attr("transform", `translate(0,${-200})`)
+		.attr("transform", "rotate(-45)")
+		.attr("text-anchor", "end");
+
+	// 下面的y轴
+	svg.append("g")
+		.attr("transform", `translate(${margin.left},0)`)
+		.call(d3.axisLeft(Birth));
+	svg.append("text")
+		.attr("class", "axis-title")
+		.attr("transform", `translate(${margin.left + 50},${height - margin.bottom / 2 + 30})`)
+		.style("text-anchor", "end")
+		.text("出生/死亡率(‰)");
+
+}
+
+function renderTags() {
 
 	svg.append("g")
 		.attr("class", "legend")
@@ -237,14 +330,14 @@ function tag() {
 		.attr("y1", height - margin.bottom / 2 - 20)
 		.attr("x2", width - margin.right - 90)
 		.attr("y2", height - margin.bottom / 2 - 20)
-		.attr("stroke", "rgb(81, 3, 176)")
+		.attr("stroke", "red")
 		.attr("stroke-width", 2);
 	svg.append("line")
 		.attr("x1", width - margin.right - 110)
 		.attr("y1", height - margin.bottom / 2)
 		.attr("x2", width - margin.right - 90)
 		.attr("y2", height - margin.bottom / 2)
-		.attr("stroke", "rgb(163, 4, 123)")
+		.attr("stroke", "black")
 		.attr("stroke-width", 2);
 
 	// 添加图例的文本
@@ -267,38 +360,46 @@ function tag() {
 		.attr("x", width - margin.right - 80)
 		.attr("y", height - margin.bottom / 2 - 20)
 		.attr("dy", ".35em")
-		.text("男性死亡率");
+		.text("出生率(‰)");
 	svg.append("text")
 		.attr("x", width - margin.right - 80)
 		.attr("y", height - margin.bottom / 2)
 		.attr("dy", ".35em")
-		.text("女性死亡率");
+		.text("死亡率(‰)");
 
 }
 
-function colomnShow(male) {
+function renderColomnShow(BirthRate) {
+
+	var x = d3.scaleBand()
+		.domain(BirthRate.map(d => d.Year))
+		.range([margin.left, width - margin.right])
+		.padding(interval);
 
 	col = svg.selectAll(".col")
-		.data(male)
+		.data(BirthRate)
 		.enter().append("line")
 		.attr("class", "col")
-		.attr("x1", function(d) { return x(d.Year)+x.bandwidth()/2; })
+		.attr("x1", function(d) { return x(d.Year)+x.bandwidth()/2-1; })
 		.attr("y1", margin.top)
-		.attr("x2", function(d) { return x(d.Year)+x.bandwidth()/2; })
+		.attr("x2", function(d) { return x(d.Year)+x.bandwidth()/2-1; })
 		.attr("y2", height-margin.bottom/2)
 		.style("stroke", "rgb(247, 235, 60)")
-		.style("stroke-width", 4)
+		.style("stroke-width", 12)
 		.style("opacity", 0.0);
 
 	col.on("mouseover", function(){
 			d3.select(this).style("opacity", "0.5");
+			renderDetail(d3.select(this).data()[0].Year);
 			// document.getElementById('img').innerHTML='<img src="img/2.jpg" alt="img/2.jpg" width="200" height="300">';
 			// console.log(d3.select(this).data()[0].Year);
-			// showDetail(d3.select(this).data()[0].Year);
+			// document.getElementById('img').innerHTML = '';
 		})
 	col.on("mouseout", function(){
 			d3.select(this).style("opacity", "0");
-			document.getElementById('img').innerHTML='<img src="img/1.jpg" alt="img/1.jpg" width="200" height="300">';
+			removeDetail();
+			// document.getElementById('img').innerHTML = '';
+			// document.getElementById('img').innerHTML='<img src="img/1.jpg" alt="img/1.jpg" width="200" height="300">';
 		})
 
 }

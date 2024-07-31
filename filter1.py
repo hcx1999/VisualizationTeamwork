@@ -32,6 +32,7 @@ def csv_to_json(csv_file_path, json_file_path):
         for row in csv_reader:
             data.append(row)
 
+    # print(data)
     with open(json_file_path, mode='w', encoding='utf-8') as json_file:
         json_file.write(to_js(json.dumps(data, indent=4)))
 

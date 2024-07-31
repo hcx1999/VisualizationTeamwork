@@ -1,38 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>布局示例</title>
-<style>
-  body, html {
-    height: 100%;
-    margin: 0;
-  }
-  .container {
-    display: flex;
-    height: 100%;
-  }
-  .left {
-    width: 50%;
-  }
-  .right {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-</style>
+    <meta charset="utf-8">
+    <title>Pie Chart</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
+    <svg width="500" height="500"></svg>
 
-<div class="container">
-  <div class="left">左边内容</div>
-  <div class="right">
-    <div>上下平分右边内容</div>
-    <div>上下平分右边内容</div>
-  </div>
-</div>
+    <script>
+        // 准备数据
+        var data = [
+            {name: "A", value: 30},
+            {name: "B", value: 20},
+            {name: "C", value: 50}
+        ];
 
+        // 创建SVG画布
+        var svg = d3.select("svg");
+
+        // 创建一个分组元素，用于包含所有的扇形
+        var g = svg.append("g")
+            .attr("transform", "translate(250, 250)");
+
+        // 使用d3.pie()生成器
+        var pie = d3.pie()
+            .value(function(d) { return d.value; });
+
+        // 使用d3.arc()生成器
+        var arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(200);
+
+        // 绑定数据和生成SVG路径元素
+        var arcs = g.selectAll("arc")
+            .data(pie(data))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+
+        // 添加路径元素
+        arcs.append("path")
+            .attr("d", arc)
+            .attr("fill", function(d, i) { return d3.schemeCategory10[i]; });
+
+        // 添加标签（可选）
+        arcs.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .text(function(d) { return d.data.name; });
+    </script>
 </body>
 </html>

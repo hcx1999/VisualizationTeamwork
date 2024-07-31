@@ -1,5 +1,6 @@
 
 renderBarChart(maleNewborn, femaleNewborn);
 renderLineChart(fertility, maleMortality, femaleMortality);
-tag();
-colomnShow(maleNewborn);
+renderRateChart(BirthRate, DeathRate);
+renderTags();
+renderColomnShow(BirthRate);
