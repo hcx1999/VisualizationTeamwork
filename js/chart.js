@@ -39,7 +39,7 @@ function renderBarChart(male, female) {
 		.data(male)
 		.enter().append("rect")
 		.attr("class", "bar1")
-		.attr("fill", "#9db8f3")
+		.attr("fill", "#90a9b0")
 		.attr("x", function(d) { return x(d.Year); })
 		.attr("y", function(d) { return y(Number(d.Value) / 1000); })
 		.attr("width", x.bandwidth())
@@ -50,7 +50,7 @@ function renderBarChart(male, female) {
 		.data(female)
 		.enter().append("rect")
 		.attr("class", "bar2")
-		.attr("fill", "#feb032")
+		.attr("fill", "#e1d0d1")
 		.attr("x", function(d) { return x(d.Year); })
 		.attr("y", function(d) { return y(Number(d.Value) / 1000); })
 		.attr("width", x.bandwidth())
@@ -102,7 +102,7 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 	svg.append("path")
 		.datum(fertility)
 		.attr("fill", "none")
-		.attr("stroke", "green")
+		.attr("stroke", "#637077")
 		.attr("stroke-width", 1.5)
 		.attr("d", line);
 
@@ -115,7 +115,7 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 		.attr("cy", d => yLine(d.Value))
 		.attr("r", 3)
 		.attr("fill", "white")
-		.attr("stroke", "green")
+		.attr("stroke", "#637077")
 		.attr("stroke-width", 1);
 
 	// 右面的y轴及图例
@@ -213,8 +213,9 @@ function renderRateChart(BirthRate, DeathRate) {
 	svg.append("path")
 		.datum(BirthRate)
 		.attr("fill", "none")
-		.attr("stroke", "red")
-		.attr("stroke-width", 1.5)
+		.attr("stroke", "#b87c4c")
+		.attr("stroke-width", 2)
+		// .style("opacity", "0.5")
 		.attr("d", Line_birth);
 
 	svg.selectAll(".dot2")
@@ -223,25 +224,27 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("class", "dot2")
 		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
 		.attr("cy", d => Birth(d.Value))
-		.attr("r", 1.5)
-		.attr("fill", "red")
-		.attr("stroke", "red")
+		.attr("r", 2)
+		.attr("fill", "#b87c4c")
+		.attr("stroke", "#b87c4c")
+		// .style("opacity", "0.5")
 		.attr("stroke-width", 1);
 
 	// console.log(DeathRate);
 	var Death = d3.scaleLinear()
 		.domain([0, d3.max(DeathRate, d => Number(d.Value))]).nice()
-		.range([height - margin.bottom, height - margin.bottom / 2]);
+		.range([height - margin.bottom, height - margin.bottom + margin.bottom / 2*25.43/43.6]);
 
 	var Line_death = d3.line()
 		.x(d => x(d.Year) + x.bandwidth() / 2)
-		.y(d => Death(d.Value));
+		.y(d => Number(Death(d.Value)));
 	
 	svg.append("path")
 		.datum(DeathRate)
 		.attr("fill", "none")
-		.attr("stroke", "black")
-		.attr("stroke-width", 1.5)
+		.attr("stroke", "#f4e0b7")
+		.attr("stroke-width", 2)
+		// .style("opacity", "0.5")
 		.attr("d", Line_death);
 
 	svg.selectAll(".dot3")
@@ -250,9 +253,10 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("class", "dot2")
 		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
 		.attr("cy", d => Death(d.Value))
-		.attr("r", 1.5)
-		.attr("fill", "black")
-		.attr("stroke", "black")
+		.attr("r", 2)
+		.attr("fill", "#f4e0b7")
+		.attr("stroke", "#f4e0b7")
+		// .style("opacity", "0.5")
 		.attr("stroke-width", 1);
 
 	// 记录birth.year和death之间的映射
@@ -310,19 +314,19 @@ function renderTags() {
 		.attr("y", margin.top)
 		.attr("width", 10)
 		.attr("height", 10)
-		.attr("fill", "#9db8f3");
+		.attr("fill", "#90a9b0");
 	svg.append("rect")
 		.attr("x", width - margin.right - 100)
 		.attr("y", margin.top + 20)
 		.attr("width", 10)
 		.attr("height", 10)
-		.attr("fill", "#feb032");
+		.attr("fill", "#e1d0d1");
 	svg.append("line")
 		.attr("x1", width - margin.right - 120)
 		.attr("y1", margin.top + 50)
 		.attr("x2", width - margin.right - 100)
 		.attr("y2", margin.top + 50)
-		.attr("stroke", "green")
+		.attr("stroke", "#637077")
 		.attr("stroke-width", 2);
 
 	svg.append("line")
@@ -330,14 +334,14 @@ function renderTags() {
 		.attr("y1", height - margin.bottom / 2 - 20)
 		.attr("x2", width - margin.right - 90)
 		.attr("y2", height - margin.bottom / 2 - 20)
-		.attr("stroke", "red")
+		.attr("stroke", "#b87c4c")
 		.attr("stroke-width", 2);
 	svg.append("line")
 		.attr("x1", width - margin.right - 110)
 		.attr("y1", height - margin.bottom / 2)
 		.attr("x2", width - margin.right - 90)
 		.attr("y2", height - margin.bottom / 2)
-		.attr("stroke", "black")
+		.attr("stroke", "#f4e0b7")
 		.attr("stroke-width", 2);
 
 	// 添加图例的文本

@@ -48,7 +48,7 @@ function renderPieChart(year){
     arcs.append("path")
         .attr("d", arc)
         // .attr("fill", function(d, i) { return d3.schemeCategory10[i]; });
-        .attr("fill", function(d, i) { return ["#0505a3", "#f3ab05"][i]; });
+        .attr("fill", function(d, i) { return ["#377483", "#c7dff0"][i]; });
 
     // 添加标签
     // arcs.append("text")
@@ -67,13 +67,13 @@ function renderPieChart(year){
         .attr("y", mar.top+130)
         .attr("width", 10)
         .attr("height", 10)
-        .attr("fill", "#0505a3");
+        .attr("fill", "#377483");
     svg1.append("rect")
         .attr("x", mar.left)
         .attr("y", mar.top + 160)
         .attr("width", 10)
         .attr("height", 10)
-        .attr("fill", "#f3ab05");
+        .attr("fill", "#c7dff0");
 
     // 添加图例的文本
     svg1.append("text")
