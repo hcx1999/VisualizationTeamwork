@@ -6,6 +6,7 @@ const height = 600;
 const width = 700;
 var offsetX = 0;
 var interval = 0.6;
+var Value = ''
 
 var barPositions, scaleMappedData, x;
 
@@ -17,44 +18,45 @@ function renderBarChart(male, female) {
 
 	// console.log(male.map(d => d.Year));
 	// 比例尺
+	Value = 'Age population, age 00, male, interpolated'
 	x = d3.scaleBand()
-		.domain(male.map(d => d.Year))
-		.range([margin.left, (width - margin.right)*63/64])
+		.domain(DATA.map(d => d.Year))
+		.range([margin.left, (width - margin.right)])
 		.padding(interval);
 	
 	// 记录年份与比例尺之间的反映射
-	scaleMappedData = male.reduce((map, d) => {
+	scaleMappedData = DATA.reduce((map, d) => {
 			map[x(d.Year).toFixed(2)] = d.Year;
 			return map;
 		  }, {});
 	// console.log(scaleMappedData);
 
 	var y = d3.scaleLinear()
-		.domain([0, d3.max(male, d => Number(d.Value) / 1000)]).nice()
+		.domain([0, d3.max(DATA, d => Number(d[Value]) / 1000)]).nice()
 		.range([height - margin.bottom, margin.top]);
 
 	// 条形图
 	var bar1 = svg
 		.selectAll(".bar1")
-		.data(male)
+		.data(DATA)
 		.enter().append("rect")
 		.attr("class", "bar1")
 		.attr("fill", "#90a9b0")
 		.attr("x", function(d) { return x(d.Year); })
-		.attr("y", function(d) { return y(Number(d.Value) / 1000); })
+		.attr("y", function(d) { return y(Number(d[Value]) / 1000); })
 		.attr("width", x.bandwidth())
-		.attr("height", function(d) { return height - margin.bottom - y(Number(d.Value) / 1000); })
-
+		.attr("height", function(d) { return height - margin.bottom - y(Number(d[Value]) / 1000); })
+	Value = 'Age population, age 00, female, interpolated'
 	svg
 		.selectAll(".bar2")
-		.data(female)
+		.data(DATA)
 		.enter().append("rect")
 		.attr("class", "bar2")
 		.attr("fill", "#e1d0d1")
 		.attr("x", function(d) { return x(d.Year); })
-		.attr("y", function(d) { return y(Number(d.Value) / 1000); })
+		.attr("y", function(d) { return y(Number(d[Value]) / 1000); })
 		.attr("width", x.bandwidth())
-		.attr("height", function(d) { return height - margin.bottom - y(Number(d.Value) / 1000); })
+		.attr("height", function(d) { return height - margin.bottom - y(Number(d[Value]) / 1000); })
 
 	// 记录每个矩形的位置，供侦测鼠标位置使用
 	barPositions = bar1.nodes().map(bar => {
@@ -85,22 +87,23 @@ function renderBarChart(male, female) {
 function renderLineChart(fertility, maleMortality, femaleMortality) {
 	
 	// 比例尺
+	Value = 'Fertility rate, total (births per woman)'
 	var x = d3.scaleBand()
-		.domain(fertility.map(d => d.Year))
-		.range([margin.left, (width - margin.right)*62/64])
+		.domain(DATA.map(d => d.Year))
+		.range([margin.left, (width - margin.right)])
 		.padding(interval);
 	var yLine = d3.scaleLinear()
-		.domain([0, d3.max(fertility, d => Number(d.Value))]).nice()
+		.domain([0, d3.max(DATA, d => Number(d[Value]))]).nice()
 		.range([height - margin.bottom, margin.top]);
 
 	// 折线比例尺
 	var line = d3.line()
 		.x(d => x(d.Year) + x.bandwidth() / 2)
-		.y(d => yLine(d.Value));
+		.y(d => yLine(d[Value]));
 
 	// 折线图
 	svg.append("path")
-		.datum(fertility)
+		.datum(DATA)
 		.attr("fill", "none")
 		.attr("stroke", "#637077")
 		.attr("stroke-width", 1.5)
@@ -108,11 +111,11 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 
 	// 转折点
 	svg.selectAll(".dot1")
-		.data(fertility)
+		.data(DATA)
 		.enter().append("circle")
 		.attr("class", "dot1")
 		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
-		.attr("cy", d => yLine(d.Value))
+		.attr("cy", d => yLine(d[Value]))
 		.attr("r", 3)
 		.attr("fill", "white")
 		.attr("stroke", "#637077")
@@ -197,21 +200,22 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 
 function renderRateChart(BirthRate, DeathRate) {
 
+	Value = 'BirthRate'
 	var x = d3.scaleBand()
-		.domain(BirthRate.map(d => d.Year))
+		.domain(DATA.map(d => d.Year))
 		.range([margin.left, width - margin.right])
 		.padding(interval);
 
 	var Birth = d3.scaleLinear()
-		.domain([0, d3.max(BirthRate, d => Number(d.Value))]).nice()
+		.domain([0, d3.max(DATA, d => Number(d[Value]))]).nice()
 		.range([height - margin.bottom, height - margin.bottom / 2]);
 
 	var Line_birth = d3.line()
 		.x(d => x(d.Year) + x.bandwidth() / 2)
-		.y(d => Birth(d.Value));
+		.y(d => Birth(d[Value]));
 	
 	svg.append("path")
-		.datum(BirthRate)
+		.datum(DATA)
 		.attr("fill", "none")
 		.attr("stroke", "#b87c4c")
 		.attr("stroke-width", 2)
@@ -219,28 +223,29 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("d", Line_birth);
 
 	svg.selectAll(".dot2")
-		.data(BirthRate)
+		.data(DATA)
 		.enter().append("circle")
 		.attr("class", "dot2")
 		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
-		.attr("cy", d => Birth(d.Value))
+		.attr("cy", d => Birth(d[Value]))
 		.attr("r", 2)
 		.attr("fill", "#b87c4c")
 		.attr("stroke", "#b87c4c")
 		// .style("opacity", "0.5")
 		.attr("stroke-width", 1);
 
+	Value = 'DeathRate'
 	// console.log(DeathRate);
 	var Death = d3.scaleLinear()
-		.domain([0, d3.max(DeathRate, d => Number(d.Value))]).nice()
-		.range([height - margin.bottom, height - margin.bottom + margin.bottom / 2*25.43/43.6]);
+		.domain([0, d3.max(DATA, d => Number(d[Value]))]).nice()
+		.range([height - margin.bottom, height - margin.bottom + margin.bottom/2*25.43/43.6]);
 
 	var Line_death = d3.line()
 		.x(d => x(d.Year) + x.bandwidth() / 2)
-		.y(d => Number(Death(d.Value)));
+		.y(d => Number(Death(d[Value])));
 	
 	svg.append("path")
-		.datum(DeathRate)
+		.datum(DATA)
 		.attr("fill", "none")
 		.attr("stroke", "#f4e0b7")
 		.attr("stroke-width", 2)
@@ -248,11 +253,11 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("d", Line_death);
 
 	svg.selectAll(".dot3")
-		.data(DeathRate)
+		.data(DATA)
 		.enter().append("circle")
 		.attr("class", "dot2")
 		.attr("cx", d => x(d.Year) + x.bandwidth() / 2)
-		.attr("cy", d => Death(d.Value))
+		.attr("cy", d => Death(d[Value]))
 		.attr("r", 2)
 		.attr("fill", "#f4e0b7")
 		.attr("stroke", "#f4e0b7")
@@ -260,8 +265,8 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("stroke-width", 1);
 
 	// 记录birth.year和death之间的映射
-	birth_darth_map = DeathRate.reduce((map, d) => {
-		map[d.Year] = d.Value;
+	birth_darth_map = DATA.reduce((map, d) => {
+		map[d.Year] = d[Value];
 		return map;
 	  }, {});
 
@@ -376,12 +381,12 @@ function renderTags() {
 function renderColomnShow(BirthRate) {
 
 	var x = d3.scaleBand()
-		.domain(BirthRate.map(d => d.Year))
+		.domain(DATA.map(d => d.Year))
 		.range([margin.left, width - margin.right])
 		.padding(interval);
 
 	col = svg.selectAll(".col")
-		.data(BirthRate)
+		.data(DATA)
 		.enter().append("line")
 		.attr("class", "col")
 		.attr("x1", function(d) { return x(d.Year)+x.bandwidth()/2-1; })

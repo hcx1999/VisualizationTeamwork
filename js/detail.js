@@ -8,6 +8,7 @@ var svg1 = d3.select("#svg-detail").append("svg")
 	.attr("height", he + mar.top + mar.bottom);
 var table = d3.select("#form").append("table")
     .attr("transform", "translate(-1000, -1000)");
+var Value = ''
 
 function renderDetail(year) {
     renderPieChart(year);
@@ -18,10 +19,10 @@ function renderDetail(year) {
 function renderPieChart(year){
 
     // 整理当年的数据
-    var Total = Number(City.find(d => d.Year==year).Value) + Number(Countryside.find(d => d.Year==year).Value);
+    var Total = Number(DATA.find(d => d.Year==year).City) + Number(DATA.find(d => d.Year==year).Countryside);
     data = [
-        {"Name": "城市人口", "Value": City.find(d => d.Year==year).Value, "Percent": Number(City.find(d => d.Year==year).Value)/Total},
-        {"Name": "乡村人口", "Value": Countryside.find(d => d.Year==year).Value, "Percent": Number(Countryside.find(d => d.Year==year).Value)/Total}
+        {"Name": "城市人口", "Value": DATA.find(d => d.Year==year).City, "Percent": Number(DATA.find(d => d.Year==year).City)/Total},
+        {"Name": "乡村人口", "Value": DATA.find(d => d.Year==year).Countryside, "Percent": Number(DATA.find(d => d.Year==year).Countryside)/Total}
     ]
 
     // 创建一个分组元素，用于包含所有的扇形
@@ -92,7 +93,7 @@ function renderPieChart(year){
 function renderRuler(year) {
 
     // 计算男女比例
-    var Percent = (Number(Male.find(d => d.Year==year).Value) / Number(Female.find(d => d.Year==year).Value)).toFixed(4);
+    var Percent = (Number(DATA.find(d => d.Year==year).Male) / Number(DATA.find(d => d.Year==year).Female)).toFixed(4);
 
 	// 男女比例的小尺子
 	var ruler = d3.scaleLinear()
@@ -135,17 +136,17 @@ function renderForm(year) {
     
         // 准备数据
         var data = [
-            { 统计: "总人口(万人)", 数值: Population.find(d => d.Year==year).Value },
-            { 统计: "男性(万人)", 数值: Male.find(d => d.Year==year).Value},
-            { 统计: "女性(万人)", 数值: Female.find(d => d.Year==year).Value },
-            { 统计: "城市(万人)", 数值: City.find(d => d.Year==year).Value},
-            { 统计: "乡村(万人)", 数值: Countryside.find(d => d.Year==year).Value },
-            { 统计: "男性新生儿(人)", 数值: maleNewborn.find(d => d.Year==year).Value },
-            { 统计: "女性新生儿(人)", 数值: femaleNewborn.find(d => d.Year==year).Value },
-            { 统计: "平均生育数量(婴儿/每个妇女)", 数值: fertility.find(d => d.Year==year).Value },
-            { 统计: "出生率(‰)", 数值: BirthRate.find(d => d.Year==year).Value },
-            { 统计: "死亡率(‰)", 数值: DeathRate.find(d => d.Year==year).Value },
-            { 统计: "自然增长率(‰)", 数值: GrowthRate.find(d => d.Year==year).Value }
+            { 统计: "总人口(万人)", 数值: Number(DATA.find(d => d.Year==year).Population).toFixed(2) },
+            { 统计: "男性(万人)", 数值: Number(DATA.find(d => d.Year==year).Male).toFixed(2)},
+            { 统计: "女性(万人)", 数值: Number(DATA.find(d => d.Year==year).Female).toFixed(2) },
+            { 统计: "城市(万人)", 数值: Number(DATA.find(d => d.Year==year).City).toFixed(2) },
+            { 统计: "乡村(万人)", 数值: Number(DATA.find(d => d.Year==year).Countryside).toFixed(2) },
+            { 统计: "男性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, male, interpolated"]).toFixed(2) },
+            { 统计: "女性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, female, interpolated"]).toFixed(2) },
+            { 统计: "平均生育数量(婴儿/每个妇女)", 数值: Number(DATA.find(d => d.Year==year)["Fertility rate, total (births per woman)"]).toFixed(2) },
+            { 统计: "出生率(‰)", 数值: Number(DATA.find(d => d.Year==year).BirthRate).toFixed(4) },
+            { 统计: "死亡率(‰)", 数值: Number(DATA.find(d => d.Year==year).DeathRate).toFixed(4) },
+            { 统计: "自然增长率(‰)", 数值: Number(DATA.find(d => d.Year==year).GrowthRate).toFixed(4) }
         ];
 
         // 添加表头
@@ -167,5 +168,11 @@ function renderForm(year) {
             .data(function(d) { return Object.values(d); })
             .enter().append("td")
             .text(function(d) { return d; });
+
+        // 美化
+        d3.select("table").style("width", "80%");
+        d3.selectAll("th").style("background-color", "#f2f2f2");
+        d3.selectAll("td").style("border", "0.5px solid #fff").style("padding", "1px");
+        d3.selectAll("tr:nth-child(even)").style("background-color", "#f9f9f9");
 
 }

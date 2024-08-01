@@ -1,43 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>D3 Table</title>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可滚动头图示例</title>
+    <link rel="stylesheet" href="css/temp.css">
 </head>
 <body>
-    <div id="table"></div>
-
+    <header class="hero">
+        <div class="hero-content">
+            <h1>欢迎来到我的网站</h1>
+            <p>这里是网站的介绍文本，可以滚动查看更多内容。</p>
+            <!-- 可以添加按钮或其他元素 -->
+        </div>
+    </header>
     <script>
-        // 准备数据
-        var data = [
-            { name: "Alice", age: 30, location: "New York" },
-            { name: "Bob", age: 25, location: "Los Angeles" },
-            { name: "Charlie", age: 35, location: "Chicago" }
-        ];
-
-        // 创建表格
-        var table = d3.select("#table").append("table");
-
-        // 添加表头
-        table.append("thead")
-            .append("tr")
-            .selectAll("th")
-            .data(Object.keys(data[0]))
-            .enter().append("th")
-            .text(function(d) { return d; });
-
-        // 添加表格行
-        var rows = table.append("tbody")
-            .selectAll("tr")
-            .data(data)
-            .enter().append("tr");
-
-        // 添加单元格
-        rows.selectAll("td")
-            .data(function(d) { return Object.values(d); })
-            .enter().append("td")
-            .text(function(d) { return d; });
-    </script>
+        // JavaScript文件内容或直接在HTML中
+        window.addEventListener('scroll', function() {
+            var hero = document.querySelector('.hero');
+            var scrollPosition = window.pageYOffset;
+            // 根据滚动位置调整头图样式
+            hero.style.height = (100 - scrollPosition / 5) + 'vh'; // 随着滚动减少高度
+            hero.style.opacity = 1 - scrollPosition / 500; // 随着滚动降低透明度
+        });
+    </script>        
 </body>
 </html>
