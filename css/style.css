@@ -1,54 +1,139 @@
 body, html {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
+/*头图css*/
 .hero {
-    /* 设置背景图片，可以是URL或线性渐变 */
-    background-image: url('header.png');
-    /* 确保背景图片覆盖整个头图区域 */
-    background-size: contain;
-    background-position: center;
-    background-attachment: fixed; /* 使背景图像在滚动时保持固定 */
-    height: 100vh; /* 使头图高度为视窗高度 */
-    color: white; /* 设置文字颜色 */
-    display: flex;
-    align-items: center; /* 垂直居中内容 */
-    justify-content: center; /* 水平居中内容 */
-    text-align: center;
-    position: relative; /* 为伪元素提供定位上下文 */
+  /* 设置背景图片，可以是URL或线性渐变 */
+  background-image: url('header.jpg');
+  /* 确保背景图片覆盖整个头图区域 */
+  background-size: contain;
+  background-position: center;
+  background-attachment: fixed; /* 使背景图像在滚动时保持固定 */
+  height: 100vh; /* 使头图高度为视窗高度 */
+  color: white; /* 设置文字颜色 */
+  display: flex;
+  align-items: center; /* 垂直居中内容 */
+  justify-content: center; /* 水平居中内容 */
+  text-align: center;
+  position: relative; /* 为伪元素提供定位上下文 */
 }
 .hero::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 半透明的黑色遮罩层 */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 半透明的黑色遮罩层 */
 }
 .hero-content {
-    position: relative; /* 确保内容在遮罩层之上 */
-    z-index: 10; /* 提高层级 */
-    padding: 20px; /* 添加一些内边距 */
+  position: relative; /* 确保内容在遮罩层之上 */
+  z-index: 10; /* 提高层级 */
+  padding: 20px; /* 添加一些内边距 */
 }
 
+/*主图表css*/
 .container {
-    /* background-image: url('01.jpg');
-    background-color: rgba(255, 255, 255, 0.1); 设置背景颜色为半透明的白色 */
-    display: flex;
-    height: 100%;
-    flex-direction: row;
+  /* background-image: url('01.jpg');
+  background-color: rgba(255, 255, 255, 0.1); 设置背景颜色为半透明的白色 */
+  display: flex;
+  height: 100%;
+  flex-direction: row;
 }
 .left {
-    width: 100%;
+  width: 100%;
 }
 .right {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space;
 }
 .detail {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+/*动画css*/
+@keyframes growEffect {
+  0% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(0.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+#chart-area {
+  transform-origin: center; /* 确保圆形从中心点开始放大 */
+  animation: growEffect 2s ease-out;
+}
+
+/* 输入框css */
+#input {
+  width: 100%; /* 设置输入框宽度 */
+  height: 100%;
+  padding: 10px; /* 增加内边距 */
+  margin: 10px 0; /* 增加外边距 */
+  border: 1px solid #ccc; /* 设置边框样式 */
+  border-radius: 4px; /* 设置圆角 */
+  font-size: 16px; /* 设置字体大小 */
+  box-sizing: border-box; /* 包含边框和内边距在宽度内 */
+}
+/* 鼠标悬停时的样式 */
+#input:hover {
+  border-color: #177cf7;
+}
+/* 聚焦时的样式 */
+#input:focus {
+  outline: none; /* 移除聚焦时的默认轮廓线 */
+  border-color: #ade6f5; /* 改变边框颜色 */
+  box-shadow: 0 0 8px #b0cfee; /* 添加阴影效果 */
+}
+/* 占位符样式 */
+#input::placeholder {
+  color: #999999; /* 改变占位符颜色 */
+  font-style: italic; /* 设置占位符字体样式 */
+}
+/* 添加自定义前缀或后缀 */
+.input-group {
+  display: flex;
+  align-items: center;
+}
+.input-group-addon {
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px; /* 左侧圆角 */
+}
+#input {
+  border-radius: 0 4px 4px 0; /* 右侧圆角 */
+}
+
+/* 选择框css */
+#select {
+  width: 100%; /* 设置输入框宽度 */
+  height: 115%; /* 设置输入框高度 */
+  padding: 10px; /* 增加内边距 */
+  margin: 10px 20px; /* 增加外边距 */
+  border: 1px solid #ccc; /* 设置边框样式 */
+  border-radius: 4px; /* 设置圆角 */
+  font-size: 16px; /* 设置字体大小 */
+  box-sizing: border-box; /* 包含边框和内边距在宽度内 */
+}
+/* 鼠标悬停时的样式 */
+#select:hover {
+  border-color: #177cf7;
+}
+/* 聚焦时的样式 */
+#select:focus {
+  outline: none; /* 移除聚焦时的默认轮廓线 */
+  border-color: #ade6f5; /* 改变边框颜色 */
+  box-shadow: 0 0 8px #b0cfee; /* 添加阴影效果 */
 }

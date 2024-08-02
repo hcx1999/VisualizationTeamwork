@@ -130,49 +130,57 @@ function renderRuler(year) {
 function removeDetail() {
     svg1.selectAll("*").remove();
     table.selectAll("*").remove();
+    document.getElementById('year').innerHTML='';
 }
 
 function renderForm(year) {
-    
-        // 准备数据
-        var data = [
-            { 统计: "总人口(万人)", 数值: Number(DATA.find(d => d.Year==year).Population).toFixed(2) },
-            { 统计: "男性(万人)", 数值: Number(DATA.find(d => d.Year==year).Male).toFixed(2)},
-            { 统计: "女性(万人)", 数值: Number(DATA.find(d => d.Year==year).Female).toFixed(2) },
-            { 统计: "城市(万人)", 数值: Number(DATA.find(d => d.Year==year).City).toFixed(2) },
-            { 统计: "乡村(万人)", 数值: Number(DATA.find(d => d.Year==year).Countryside).toFixed(2) },
-            { 统计: "男性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, male, interpolated"]).toFixed(2) },
-            { 统计: "女性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, female, interpolated"]).toFixed(2) },
-            { 统计: "平均生育数量(婴儿/每个妇女)", 数值: Number(DATA.find(d => d.Year==year)["Fertility rate, total (births per woman)"]).toFixed(2) },
-            { 统计: "出生率(‰)", 数值: Number(DATA.find(d => d.Year==year).BirthRate).toFixed(4) },
-            { 统计: "死亡率(‰)", 数值: Number(DATA.find(d => d.Year==year).DeathRate).toFixed(4) },
-            { 统计: "自然增长率(‰)", 数值: Number(DATA.find(d => d.Year==year).GrowthRate).toFixed(4) }
-        ];
 
-        // 添加表头
-        table.append("thead")
-            .append("tr")
-            .selectAll("th")
-            .data(Object.keys(data[0]))
-            .enter().append("th")
-            .text(function(d) { return d; });
+    yearHTML = '<h4>'+year+'年';
+    if(Number(year)<=2021) yearHTML+='（实际值）';
+    else yearHTML+='（预测值）'
+    yearHTML+='</h4>';
+    document.getElementById('year').innerHTML=yearHTML;
 
-        // 添加表格行
-        var rows = table.append("tbody")
-            .selectAll("tr")
-            .data(data)
-            .enter().append("tr");
+    // 准备数据
+    var data = [
+        { 统计: "总人口(万人)", 数值: Number(DATA.find(d => d.Year==year).Population).toFixed(2) },
+        { 统计: "男性(万人)", 数值: Number(DATA.find(d => d.Year==year).Male).toFixed(2)},
+        { 统计: "女性(万人)", 数值: Number(DATA.find(d => d.Year==year).Female).toFixed(2) },
+        { 统计: "城市(万人)", 数值: Number(DATA.find(d => d.Year==year).City).toFixed(2) },
+        { 统计: "乡村(万人)", 数值: Number(DATA.find(d => d.Year==year).Countryside).toFixed(2) },
+        { 统计: "男性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, male, interpolated"]).toFixed(2) },
+        { 统计: "女性新生儿(人)", 数值: Number(DATA.find(d => d.Year==year)["Age population, age 00, female, interpolated"]).toFixed(2) },
+        { 统计: "平均生育数量(婴儿/每个妇女)", 数值: Number(DATA.find(d => d.Year==year)["Fertility rate, total (births per woman)"]).toFixed(2) },
+        { 统计: "出生率(‰)", 数值: Number(DATA.find(d => d.Year==year).BirthRate).toFixed(4) },
+        { 统计: "死亡率(‰)", 数值: Number(DATA.find(d => d.Year==year).DeathRate).toFixed(4) },
+        { 统计: "自然增长率(‰)", 数值: Number(DATA.find(d => d.Year==year).GrowthRate).toFixed(4) }
+    ];
 
-        // 添加单元格
-        rows.selectAll("td")
-            .data(function(d) { return Object.values(d); })
-            .enter().append("td")
-            .text(function(d) { return d; });
+    // 添加表头
+    table.append("thead")
+        .append("tr")
+        .selectAll("th")
+        .data(Object.keys(data[0]))
+        .enter().append("th")
+        .text(function(d) { return d; });
 
-        // 美化
-        d3.select("table").style("width", "80%");
-        d3.selectAll("th").style("background-color", "#f2f2f2");
-        d3.selectAll("td").style("border", "0.5px solid #fff").style("padding", "1px");
-        d3.selectAll("tr:nth-child(even)").style("background-color", "#f9f9f9");
+    // 添加表格行
+    var rows = table.append("tbody")
+        .selectAll("tr")
+        .data(data)
+        .enter().append("tr");
+
+    // 添加单元格
+    rows.selectAll("td")
+        .data(function(d) { return Object.values(d); })
+        .enter().append("td")
+        .text(function(d) { return d; })
+        .style("color", "#377483")
+
+    // 美化
+    d3.select("table").style("width", "80%");
+    d3.selectAll("th").style("background-color", "#f2f2f2");
+    d3.selectAll("td").style("border", "0.5px solid #fff").style("padding", "1px");
+    d3.selectAll("tr:nth-child(even)").style("background-color", "#f9f9f9");
 
 }

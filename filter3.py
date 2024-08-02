@@ -5,6 +5,7 @@ import csv
 import pandas as pd
 import json
 import os
+import boosting
 
 csv_file_path = 'csv/gender_chn.csv'
 Names = ['Age population, age 00, female, interpolated', 
@@ -58,11 +59,11 @@ def csv_to_json():
             data.append(row)
 
     # print(data)
-    with open('json/final.js', mode='w', encoding='utf-8') as json_file:
+    with open('json/backup.js', mode='w', encoding='utf-8') as json_file:
         json_file.write(to_js(json.dumps(data, indent=4)))
 
 def to_js(to_json):
-    return 'var DATA = ' + to_json
+    return 'var DATA_BACKUP = ' + to_json
 
 if __name__ == '__main__':
 
@@ -72,5 +73,6 @@ if __name__ == '__main__':
     output.to_csv('csv/output.csv', index=False)
     pop()
     output.to_csv('csv/output.csv', index=False)
-    os.system("python boosting.py")
+    # os.system("python boosting.py")
+    boosting.SVRLearning(2040)
     csv_to_json()

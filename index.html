@@ -18,20 +18,40 @@
         <header class="hero">
             <div class="hero-content">
                 <h1>中国人口统计及未来展望</h1>
-                <p>1960 - 2022 - ∞</p>
+                <p>1960 - 2021 - 2035</p>
             </div>
         </header>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="user-control">
+                    <select id="select" class="form-control" onchange="onChange()">
+                        <option value="All">All</option>
+                        <option value="Bar Chart">Bar Chart</option>
+                        <option value="Line Chart">Line Chart</option>
+                        <option value="Growth Rate">GrowthRate</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="user-control">
+                    <input type="text" id="input" placeholder="预测年份(2022-2034)" onchange="predict()">
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="left" id="chart-area"></div>
             <div class="right">
                 <div class="detail" id='svg-detail'></div>
+                <div class="detail" id="year"></div>
                 <div class="detail" id='form'></div>
             </div>
         </div>
 
         <script src="https://d3js.org/d3.v7.min.js"></script>
 
+        <script src="json/backup.js"></script>
         <script src="json/final.js"></script>
         <!-- <script src="json/femaleNewborn.js"></script>
         <script src="json/maleNewborn.js"></script>

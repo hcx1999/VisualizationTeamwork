@@ -2,7 +2,7 @@
 
 
 const margin = {top: 100, right: 0, bottom: 200, left: 50};
-const height = 600;
+const height = 580;
 const width = 700;
 var offsetX = 0;
 var interval = 0.6;
@@ -104,6 +104,7 @@ function renderLineChart(fertility, maleMortality, femaleMortality) {
 	// 折线图
 	svg.append("path")
 		.datum(DATA)
+		.attr("class", "path1")
 		.attr("fill", "none")
 		.attr("stroke", "#637077")
 		.attr("stroke-width", 1.5)
@@ -216,6 +217,7 @@ function renderRateChart(BirthRate, DeathRate) {
 	
 	svg.append("path")
 		.datum(DATA)
+		.attr("class", "path2")
 		.attr("fill", "none")
 		.attr("stroke", "#b87c4c")
 		.attr("stroke-width", 2)
@@ -246,6 +248,7 @@ function renderRateChart(BirthRate, DeathRate) {
 	
 	svg.append("path")
 		.datum(DATA)
+		.attr("class", "path3")
 		.attr("fill", "none")
 		.attr("stroke", "#f4e0b7")
 		.attr("stroke-width", 2)
@@ -393,7 +396,7 @@ function renderColomnShow(BirthRate) {
 		.attr("y1", margin.top)
 		.attr("x2", function(d) { return x(d.Year)+x.bandwidth()/2-1; })
 		.attr("y2", height-margin.bottom/2)
-		.style("stroke", "rgb(247, 235, 60)")
+		.style("stroke", "#c0eafa")
 		.style("stroke-width", 12)
 		.style("opacity", 0.0);
 

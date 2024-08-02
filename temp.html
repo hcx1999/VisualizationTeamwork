@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>可滚动头图示例</title>
-    <link rel="stylesheet" href="css/temp.css">
+<title>使用回车提交Input数据</title>
 </head>
 <body>
-    <header class="hero">
-        <div class="hero-content">
-            <h1>欢迎来到我的网站</h1>
-            <p>这里是网站的介绍文本，可以滚动查看更多内容。</p>
-            <!-- 可以添加按钮或其他元素 -->
-        </div>
-    </header>
-    <script>
-        // JavaScript文件内容或直接在HTML中
-        window.addEventListener('scroll', function() {
-            var hero = document.querySelector('.hero');
-            var scrollPosition = window.pageYOffset;
-            // 根据滚动位置调整头图样式
-            hero.style.height = (100 - scrollPosition / 5) + 'vh'; // 随着滚动减少高度
-            hero.style.opacity = 1 - scrollPosition / 500; // 随着滚动降低透明度
-        });
-    </script>        
+
+<input type="text" id="myInput" placeholder="请输入内容..." />
+
+<script>
+// 获取输入框元素
+var inputElement = document.getElementById('myInput');
+
+// 添加keyup事件监听器
+inputElement.addEventListener('keyup', function(event) {
+    // 检查是否按下了回车键
+    if (event.keyCode === 13) {
+        // 阻止默认的回车键行为
+        event.preventDefault();
+
+        // 获取输入框的值
+        var inputValue = inputElement.value;
+
+        // 处理输入数据
+        console.log("输入的数据是: " + inputValue);
+
+        // 这里可以执行其他操作，比如发送数据到服务器
+        // ...
+    }
+});
+</script>
+
 </body>
 </html>
