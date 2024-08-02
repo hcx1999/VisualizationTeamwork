@@ -74,6 +74,7 @@ function renderBarChart(male, female) {
 	var yAxis = d3.axisLeft(y);
 
 	svg.append("g")
+		.attr("class", "g")
 		.attr("transform", `translate(${margin.left},0)`)
 		.call(yAxis);
 	svg.append("text")
@@ -294,6 +295,7 @@ function renderRateChart(BirthRate, DeathRate) {
 		.attr("transform", `translate(0,${height - margin.bottom})`)
 		.call(xAxis)
 		.selectAll("text")
+		.attr("class", "legend")
 		.attr("transform", `translate(0,${-200})`)
 		.attr("transform", "rotate(-45)")
 		.attr("text-anchor", "end");
@@ -354,26 +356,31 @@ function renderTags() {
 
 	// 添加图例的文本
 	svg.append("text")
+		.attr("class", "legend")
 		.attr("x", width - margin.right - 80)
 		.attr("y", margin.top + 5)
 		.attr("dy", ".35em")
 		.text("男性新生儿");
 	svg.append("text")
+		.attr("class", "legend")
 		.attr("x", width - margin.right - 80)
 		.attr("y", margin.top + 25)
 		.attr("dy", ".35em")
 		.text("女性新生儿");
 	svg.append("text")
+		.attr("class", "legend")
 		.attr("x", width - margin.right - 95)
 		.attr("y", margin.top + 50)
 		.attr("dy", ".35em")
 		.text("平均生育数量");
 	svg.append("text")
+		.attr("class", "legend")
 		.attr("x", width - margin.right - 80)
 		.attr("y", height - margin.bottom / 2 - 20)
 		.attr("dy", ".35em")
 		.text("出生率(‰)");
 	svg.append("text")
+		.attr("class", "legend")
 		.attr("x", width - margin.right - 80)
 		.attr("y", height - margin.bottom / 2)
 		.attr("dy", ".35em")

@@ -18,6 +18,7 @@ body, html {
   justify-content: center; /* 水平居中内容 */
   text-align: center;
   position: relative; /* 为伪元素提供定位上下文 */
+  animation: growEffect 2s ease-out; /*动画*/
 }
 .hero::after {
   content: '';
@@ -41,6 +42,7 @@ body, html {
   display: flex;
   height: 100%;
   flex-direction: row;
+  animation: growEffect 2s ease-out;
 }
 .left {
   width: 100%;
@@ -58,27 +60,36 @@ body, html {
 /*动画css*/
 @keyframes growEffect {
   0% {
-    transform: scale(0.1);
+    transform: scale(0.8);
     opacity: 0;
-  }
-  50% {
-    transform: scale(0.5);
-    opacity: 0.7;
   }
   100% {
     transform: scale(1);
     opacity: 1;
   }
 }
-#chart-area {
-  transform-origin: center; /* 确保圆形从中心点开始放大 */
+/* #chart-area, #hero {
+  transform-origin: center;
   animation: growEffect 2s ease-out;
+} */
+
+/* @keyframes growBar {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
+
+.bar1, .bar2, .path1, .path2, .path3, .dot1, .dot2, .dot3, .axis-title, .legend{
+  animation: growBar 2s ease-in-out forwards;
+} */
 
 /* 输入框css */
 #input {
   width: 100%; /* 设置输入框宽度 */
-  height: 100%;
+  height: 100%; /* 设置输入框高度 */
   padding: 10px; /* 增加内边距 */
   margin: 10px 0; /* 增加外边距 */
   border: 1px solid #ccc; /* 设置边框样式 */
@@ -136,4 +147,23 @@ body, html {
   outline: none; /* 移除聚焦时的默认轮廓线 */
   border-color: #ade6f5; /* 改变边框颜色 */
   box-shadow: 0 0 8px #b0cfee; /* 添加阴影效果 */
+}
+
+/*段落和图片*/
+p {
+  width: 400px;
+  font-size: 16px;
+  color: #333;
+  text-align: justify;
+  line-height: 1.6;
+  margin: 50px 100px; /* 上下外边距为50像素，左右外边距为100像素 */
+  padding: 10px; /* 内边距为10像素 */
+  text-indent: 30px; /* 首行缩进20像素 */
+  background-color: #e5f4fa; /* 背景颜色为浅灰色 */
+  border: 1px solid #89cdf7; /* 边框为1像素，实线，颜色为浅灰色 */
+}
+.image {
+  width: 400px;
+  height: 300px;
+  margin: 0px 50px;
 }

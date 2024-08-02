@@ -7,6 +7,8 @@
 
 // const fs = require('fs').promises;
 
+DATA = DATA_BACKUP.filter(d => d.Year <= 2021);
+
 renderBarChart(0, 0);
 renderLineChart(0, 0, 0);
 renderRateChart(0, 0);

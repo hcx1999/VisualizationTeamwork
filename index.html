@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>中国人口统计</title>
+        <title>人口统计</title>
 
         <!-- Load CSS libraries -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
-
+        <link rel="icon" href="img/人口.svg" type="image/x-icon">
         <!-- <img src="img/1.jpg" class="head" id="head-image"> -->
 
     </head>
@@ -18,9 +18,38 @@
         <header class="hero">
             <div class="hero-content">
                 <h1>中国人口统计及未来展望</h1>
-                <p>1960 - 2021 - 2035</p>
+                <h3>1960 - 2021 - 2035</h3>
             </div>
         </header>
+
+        <div class="TEXT">
+            <table>
+            <td><p><span style="font-size: 20px;">1.研究背景。</span><br><br>中国的人口动态对经济、社会政策和全球地位有重大影响。中国的人口结构和变化趋势在过去几十年中发生了显著变化，对经济发展、社会政策和资源分配产生了深远影响。随着人口老龄化、性别比例失衡和出生率下降等问题日益严重，理解这些人口动态对于制定有效的社会政策、经济计划和资源分配策略至关重要。人口老龄化带来的社会养老和医疗保障压力、性别比例失衡导致的社会问题、以及出生率下降对劳动力市场的影响，这些都成为当前和未来中国发展中亟待解决的重要议题。通过深入研究和分析人口数据，能够为政策制定者提供科学依据，帮助制定更加合理和有效的社会经济政策。</p></td>
+            <td><img src="img/3.jpg" class="image"></td>
+            </table>
+            <table>
+            <td><img src="img/2.jpg" class="image"></td>
+            <td><p><span style="font-size: 20px;">2.研究目标。</span><br><br>本研究的主要目标是通过开发互动式可视化工具，展示和分析中国的人口统计数据及其未来展望。具体目标包括：<br>
+                展示历史数据：利用互动式图表展示中国从20世纪60年代至今的人口统计数据，包括新生儿数量、性别比例、城乡分布等。<br>
+                预测未来趋势：基于现有数据，预测未来人口变化趋势，帮助政策制定者了解未来可能面临的挑战和机遇。<br>
+                提高数据理解：通过清晰的可视化图表，帮助用户更直观地理解复杂的人口数据及其变化趋势，为学术研究和政策制定提供数据支持。</p></td>
+            </table>
+            <table>
+            <td><p><span style="font-size: 20px;">3.研究范围。</span><br><br>本研究主要集中在以下几个方面：<br>
+                历史数据分析：分析过去几十年间中国人口的变化趋势，包括新生儿数量、性别比例、城乡分布、出生率和死亡率等指标。<br>
+                未来人口预测：利用统计方法和数据分析技术，对未来人口变化趋势进行预测，特别关注未来几十年的人口总数、年龄结构和性别比例等。<br>
+                城乡差异研究：分析城乡人口的分布和变化趋势，探讨不同地域的人口动态及其社会经济影响。<br>
+                性别比例研究：研究不同年龄段的性别比例，了解性别失衡的历史趋势及其未来可能的变化方向。<br>
+                通过以上研究，旨在为政府、研究机构和公众提供全面的人口统计信息，支持决策和政策制定。</p></td>
+                <td><img src="img/1.jpg" class="image"></td>
+            </table>
+            <table>
+            <td><img src="img/4.jpg" class="image"></td>
+            <td><p><span style="font-size: 20px;">4.数据分析。</span><br><br>数据来源于<a href="https://data.humdata.org/dataset/world-bank-gender-indicators-for-china">世界银行的中国性别指标数据集</a>和<a href="https://data.stats.gov.cn/easyquery.htm?cn=C01">国家统计局的年度人口数据集</a>，包括历史数据和未来预测。<br>
+                数据整理：由于不同的数据源格式不同，我们使用pandas库处理csv表格将两组个不同格式的表格进行合并，从而得到用于训练和制图的数据集。<br>
+                算法简介：本项目需要用到的算法主要包括scikit-learn中的几种回归模型。经多次尝试，最终选定了效果最好的SVR（支持向量机回归）作为最终采用的模型。我们使用输入年份作为回归的自变量，将其他统计数据作合称为一个向量作为因变量来训练模型。支持向量机的本质是在训练集内部用超平面对数据进行划分，在本项目中，人口的各项指标彼此之间相关性很强，使用这种回归方法有一定的合理性。</p></td>
+            </table>
+        </div>
 
         <div class="row">
             <div class="col-sm-4">
@@ -35,7 +64,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="user-control">
-                    <input type="text" id="input" placeholder="预测年份(2022-2034)" onchange="predict()">
+                    <input type="text" id="input" placeholder="预测年份(2025-2035)" onchange="predict()">
                 </div>
             </div>
         </div>
