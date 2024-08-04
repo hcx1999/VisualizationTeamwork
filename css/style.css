@@ -159,8 +159,8 @@ p {
   margin: 50px 100px; /* 上下外边距为50像素，左右外边距为100像素 */
   padding: 10px; /* 内边距为10像素 */
   text-indent: 30px; /* 首行缩进20像素 */
-  background-color: #e5f4fa; /* 背景颜色为浅灰色 */
-  border: 1px solid #89cdf7; /* 边框为1像素，实线，颜色为浅灰色 */
+  background-color: #f1efe3; /* 背景颜色为浅灰色 */
+  border: 1px solid #f1efe3; /* 边框为1像素，实线，颜色为浅灰色 */
 }
 .image {
   width: 400px;

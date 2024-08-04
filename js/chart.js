@@ -288,7 +288,8 @@ function renderRateChart(BirthRate, DeathRate) {
 */
 
 	// x轴
-	var xAxis = d3.axisBottom(x);
+	var xAxis = d3.axisBottom(x)
+	    .tickValues([1960, 1965, 1970, 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025, 2030, 2035]);
 		// .tickSize(0); // 取消刻度
 
 	svg.append("g")
